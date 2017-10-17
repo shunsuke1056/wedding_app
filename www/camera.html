@@ -1,0 +1,21 @@
+    <ons-page id="detail-page">
+      <ons-toolbar>
+        <div class="center">撮影</div>
+      </ons-toolbar>
+      <!--<input type="file" accept="image/*;capture=camera">-->
+      
+        <style>
+            img#picture {
+                width: 100%;
+                height: 80%;
+            }
+        </style>
+        <p id="buttons">
+            <input type="button" onclick="snapPicture()" value="カメラ起動" />
+            <input type="button" onclick="getPicture()" value="画像選択" />
+        </p>
+        <img id="picture" src="" alt="">
+        <p id="upload">
+            <input type="button" onclick="upload()" value="アップロード" />
+        </p>
+    </ons-page>
