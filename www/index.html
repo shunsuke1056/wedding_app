@@ -15,6 +15,7 @@
 
   <script>
   /* global ons, $, firebase */
+    var uid = "";
     ons.ready(function() {
       console.log("Onsen UI is ready!");
     });
@@ -56,6 +57,10 @@
     function upload() {
         var storage = firebase.storage();
     }
+    
+    function editSelects(event) {
+        uid = parseInt(event.target.value);
+    }
 
     document.addEventListener('init', function(event){
       var page = event.target;
@@ -94,21 +99,33 @@
           $('#content').html(notes.content);
         });
       }
+      else if(page.matches('#user-page')){
+        firebase.database().ref('/namelist').once('value').then(function(snapshot) {
+            var names = snapshot.val();
+            $(names).each(function(idx){
+                console.log($(this));
+                var oli = $('<option></option>')
+                            .attr('value', idx)
+                            .text($(this).get(0).name + " 様");
+                $('#namelist select').append(oli);
+            });
+        });
+      }
     });
-  </script>
-  <script src="https://www.gstatic.com/firebasejs/4.5.1/firebase.js"></script>
-  <script>
-    // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyCR0LDvnKRq-A7Junick5ijFTVS9XcigRo",
-      authDomain: "zakio-wedding-app.firebaseapp.com",
-      databaseURL: "https://zakio-wedding-app.firebaseio.com",
-      projectId: "zakio-wedding-app",
-      storageBucket: "zakio-wedding-app.appspot.com",
-      messagingSenderId: "454870467920"
-    };
-    firebase.initializeApp(config);
-  </script>
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/4.5.2/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCrs59bhWgqSEhqSkZQ6vlAf3YNLqaLexc",
+            authDomain: "ishizaki-wedding.firebaseapp.com",
+            databaseURL: "https://ishizaki-wedding.firebaseio.com",
+            projectId: "ishizaki-wedding",
+            storageBucket: "ishizaki-wedding.appspot.com",
+            messagingSenderId: "422802539278"
+        };
+        firebase.initializeApp(config);
+    </script>
 </head>
 <body>
 
@@ -116,19 +133,19 @@
     <ons-page>
       <ons-tabbar swipeable position="bottom">
         <ons-tab label="User" page="user.html">
-          <ons-icon icon="ion-android-person, ion-person"></ons-icon>
+          <ons-icon size="2x" icon="ion-android-person, ion-person"></ons-icon>
         </ons-tab>
         <ons-tab label="Camera" page="camera.html">
-          <ons-icon icon="ion-android-camera, ion-camera"></ons-icon>
+          <ons-icon size="2x" icon="ion-android-camera, ion-camera"></ons-icon>
         </ons-tab>
         <ons-tab label="Home" page="home.html" active>
-          <ons-icon icon="ion-android-home, ion-home"></ons-icon>
+          <ons-icon size="2x" icon="ion-android-home, ion-home"></ons-icon>
         </ons-tab>
         <ons-tab label="Notes" page="notes.html">
-          <ons-icon icon="ion-android-notifications, ion-notifications"></ons-icon>
+          <ons-icon size="2x" icon="ion-android-notifications, ion-notifications"></ons-icon>
         </ons-tab>
         <ons-tab label="Map" page="map.html">
-          <ons-icon icon="ion-android-pin, ion-location"></ons-icon>
+          <ons-icon size="2x" icon="ion-android-pin, ion-location"></ons-icon>
         </ons-tab>
       </ons-tabbar>
     </ons-page>
