@@ -1,131 +1,21 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
-  <script src="components/loader.js"></script>
-  <script src="lib/onsenui/js/onsenui.min.js"></script>
-  <script src="js/jquery-3.2.1.min.js"></script>
-
-  <link rel="stylesheet" href="components/loader.css">
-  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
-  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
-  <link rel="stylesheet" href="css/style.css">
-
-  <script>
-  /* global ons, $, firebase */
-    var uid = "";
-    ons.ready(function() {
-      console.log("Onsen UI is ready!");
-    });
-
-    document.addEventListener("deviceready", onDeviceReady, false);
-    function onDeviceReady() {
-        console.log('Cordova is ready!');
-        console.log(navigator.camera);
-    }
-    function getPicture() {
-        navigator.camera.getPicture(
-            onSuccess,
-            onFail,
-            {
-                destinationType: Camera.DestinationType.DATA_URL,
-                sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM
-            }
-        );
-    }
-    function snapPicture () {
-        navigator.camera.getPicture(
-            onSuccess,
-            onFail,
-            {
-                quality: 80,
-                destinationType: Camera.DestinationType.DATA_URL,
-                saveToPhotoAlbum: true,
-                correctOrientation: true
-            }
-        );
-    }
-    function onSuccess(imageData) {
-        $('#picture').attr('src', "data:image/jpeg;base64, " + imageData);
-        console.log(imageData);
-    }
-    function onFail (message) {
-        alert ('Error!!!: ' + message);
-    }
-    function upload() {
-        var storage = firebase.storage();
-    }
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
     
-    function editSelects(event) {
-        uid = parseInt(event.target.value);
-    }
-
-    document.addEventListener('init', function(event){
-      var page = event.target;
-      if(page.matches('#home-page')) {
-        $('#push-button').click(function(){
-          var tid = $(this).data('tid');
-          $('#navigator').get(0).pushPage('tl_detail.html', {animation:'fade', data:{tid:tid}});
-        });
-      }
-      else if(page.matches('#tl_detail-page')){
-        console.log(page.data.tid);
-      }
-      else if(page.matches('#notes-page')){
-        firebase.database().ref('/notification').once('value').then(function(snapshot) {
-          var notes = snapshot.val();
-          $(notes).each(function(idx){
-            var oli = $('<ons-list-item></ons-list-item>')
-                        .addClass('item')
-                        .attr('data-nid', idx)
-                        .attr('modifier', 'chevron')
-                        .attr('tappable', 'true')
-                        .text($(this).get(0).title)
-                        .click(function(){
-                          $('#navigator').get(0).pushPage('nt_detail.html', {data:{nid:idx}});
-                        });
-            $('#notes-page ons-list').append(oli);
-          });
-        });
-      }
-      else if(page.matches('#nt_detail-page')){
-        console.log(page.data.nid);
-        var nid = page.data.nid;
-        firebase.database().ref('/notification/' + nid).once('value').then(function(snapshot) {
-          var notes = snapshot.val();
-          $('#title').text(notes.title);
-          $('#content').html(notes.content);
-        });
-      }
-      else if(page.matches('#user-page')){
-        firebase.database().ref('/namelist').once('value').then(function(snapshot) {
-            var names = snapshot.val();
-            $(names).each(function(idx){
-                console.log($(this));
-                var oli = $('<option></option>')
-                            .attr('value', idx)
-                            .text($(this).get(0).name + " 様");
-                $('#namelist select').append(oli);
-            });
-        });
-      }
-    });
-    </script>
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <script src="components/loader.js"></script>
+    <script src="lib/onsenui/js/onsenui.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.5.2/firebase.js"></script>
-    <script>
-        // Initialize Firebase
-        var config = {
-            apiKey: "AIzaSyCrs59bhWgqSEhqSkZQ6vlAf3YNLqaLexc",
-            authDomain: "ishizaki-wedding.firebaseapp.com",
-            databaseURL: "https://ishizaki-wedding.firebaseio.com",
-            projectId: "ishizaki-wedding",
-            storageBucket: "ishizaki-wedding.appspot.com",
-            messagingSenderId: "422802539278"
-        };
-        firebase.initializeApp(config);
-    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="js/fb_config.js"></script>
+    <script src="js/wedding_app.js"></script>
 </head>
 <body>
 
