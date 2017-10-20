@@ -14,7 +14,7 @@ function getPicture() {
         onSuccess,
         onFail,
         {
-            destinationType: Camera.DestinationType.DATA_URL,
+            destinationType: Camera.DestinationType.FILE_URL,
             sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM
         }
     );
@@ -25,21 +25,17 @@ function snapPicture () {
         onFail,
         {
             quality: 80,
-            destinationType: Camera.DestinationType.DATA_URL,
+            destinationType: Camera.DestinationType.FILE_URL,
             saveToPhotoAlbum: true,
             correctOrientation: true
         }
     );
 }
 function onSuccess(imageData) {
-    $('#picture').attr('src', "data:image/jpeg;base64, " + imageData);
-    console.log(imageData);
+    $('#picture').attr('src', imageData);
 }
 function onFail (message) {
     alert ('Error!!!: ' + message);
-}
-function upload() {
-    var storage = firebase.storage();
 }
 
 function editSelects(event) {
@@ -76,27 +72,43 @@ document.addEventListener('init', function(event){
     }
     else if(page.matches('#nt_detail-page')){
         var nid = page.data.nid;
-        firebase.database()
-                    .ref('/notification/' + nid)
+        firebase
+            .database()
+                .ref('/notification/' + nid)
                     .once('value')
-                    .then(function(snapshot) {
-                        var notes = snapshot.val();
-                        $('#title').text(notes.title);
-                        $('#content').html(notes.content);
-                    });
+                        .then(function(snapshot) {
+                            var notes = snapshot.val();
+                            $('#title').text(notes.title);
+                            $('#content').html(notes.content);
+                        });
     }
     else if(page.matches('#user-page')){
-        firebase.database()
-                    .ref('/namelist')
+        firebase
+            .database()
+                .ref('/namelist')
                     .once('value')
-                    .then(function(snapshot) {
-                        var names = snapshot.val();
-                        $(names).each(function(idx){
-                            var oli = $('<option></option>')
-                                        .attr('value', idx)
-                                        .text($(this).get(0).name + " 様");
-                            $('#namelist select').append(oli);
+                        .then(function(snapshot) {
+                            var names = snapshot.val();
+                            $(names).each(function(idx){
+                                var oli = $('<option></option>')
+                                            .attr('value', idx)
+                                            .text($(this).get(0).name + " 様");
+                                $('#namelist select').append(oli);
+                            });
                         });
-                    });
+    }
+    else if(page.matches('#camera-page')){
+        $('#upload input').click(function(){
+            var imageURI = $('#picture').attr('src');
+            console.log(imageURI);
+            var storageRef = "images/test.jpg";
+            cfUploadFile(storageRef, imageURI, "image/jpeg")
+                .then(function(snapshot) {
+                    console.log("Success");
+                })
+                .fail(function(err) {
+                    console.log("Error");
+                });
+        });
     }
 });
