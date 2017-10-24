@@ -1,11 +1,34 @@
     <ons-page id="tl_detail-page">
-      <ons-toolbar>
-        <div class="center">画像詳細</div>
-        <div class="left">
-          <ons-back-button></ons-back-button>
+        <ons-toolbar>
+            <div class="left">
+                <ons-back-button></ons-back-button>
+            </div> 
+            <div class="center">コメント</div>
+        </ons-toolbar>
+        <!--todo タイムライン（サーバーから読み込み予定）今はサンプルをべた書き -->
+        <div id="timeline-list">
+            <!-- 画像データ -->
+            <ons-button modifier="large" id="push-button" data-tid="12341234">【画像】</ons-button>
+            <div>
+                <!--todo （アイコンに差し替え）いいね押下時の処理（データベースから取得→インデントして更新→更新成功失敗関係なくインデントした数値を画面に表示）  -->
+                <ons-button>いいね</ons-button>
+                <div style="display: inline-block;">10</div>
+                <div id="comment-list">
+                    <div style="display: inline;"><b>石崎さん</b></div>
+                    <!-- todo 文字切れを省略（jsで文字の加工をして表示させる） -->
+                    <div style="display: inline;">このドレスチョーかわいいですね！素敵！</div>
+                    <br>
+                    <!-- サンプル２ -->
+                    <div style="display: inline;"><b>秋田さん</b></div>
+                    <div style="display: inline;">白がとっても似合ってます</div>
+                </div>
+            </div>
+            
         </div>
-      </ons-toolbar>
-      <p style="text-align: center;">
-        This is the notes page.
-      </p>
+        <!-- todo 配置がうまくいかなんでとりあえず保留 -->
+        <div style="position:absolute; bottom:0;">
+            <ons-input style="background-color:red; margin:5px; padding:5px;" type="text" placeholder="コメント"></ons-input>
+            <!-- todo 投稿処理をjsで実装 -->
+            <p id="comment-post" style="background-color:blue; margin:5px; padding5px; display: inline-block;">投稿する</p>
+        </div>
     </ons-page>
