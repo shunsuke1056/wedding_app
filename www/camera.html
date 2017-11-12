@@ -12,10 +12,15 @@
         </style>
         <p id="buttons">
             <input type="button" onclick="snapPicture()" value="カメラ起動" />
-            <input type="button" onclick="getPicture()" value="画像選択" />
+            <!--<input type="button" onclick="getPicture()" value="画像選択" />-->
         </p>
         <img id="picture" src="" alt="">
-        <p id="upload">
+        <!--<p id="upload">
             <input type="button" value="アップロード" />
-        </p>
+        </p>-->
+        
+        <input id="pic_data" type="file" name="photo" onchange="fileChange()" accept="image/*" />
+            <button onclick="uploadPic()">アップロード</button>
+        <div id="sampletext"></div>
+
     </ons-page>
